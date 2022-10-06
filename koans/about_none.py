@@ -5,17 +5,18 @@
 # Based on AboutNil in the Ruby Koans
 #
 
+from types import NoneType
 from runner.koan import *
 
 class AboutNone(Koan):
 
     def test_none_is_an_object(self):
         "Unlike NULL in a lot of languages"
-        self.assertEqual(__, isinstance(None, object))
+        self.assertEqual(True, isinstance(None, object))
 
     def test_none_is_universal(self):
         "There is only one None"
-        self.assertEqual(____, None is None)
+        self.assertEqual(True, None is None)
 
     def test_what_exception_do_you_get_when_calling_nonexistent_methods(self):
         """
@@ -37,11 +38,13 @@ class AboutNone(Koan):
         #
         #     https://github.com/gregmalcolm/python_koans/wiki/Class-Attribute
 
-        self.assertEqual(__, ex2.__class__)
+        # https://docs.python.org/3/whatsnew/3.10.html?highlight=attributeerror
+        # AttributeError will offer suggestions of similar attribute names in the object that the exception was raised from
+        self.assertEqual(AttributeError, ex2.__class__)
 
         # What message was attached to the exception?
         # (HINT: replace __ with part of the error message.)
-        self.assertRegex(ex2.args[0], __)
+        self.assertRegex(ex2.args[0], NoneType)
 
     def test_none_is_distinct(self):
         """
