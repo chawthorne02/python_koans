@@ -30,7 +30,7 @@ class AboutLists(Koan):
 
     def test_accessing_list_elements(self):
         noms = ['peanut', 'butter', 'and', 'jelly']
-
+        # when the index is -1 it starts in the end of the list
         self.assertEqual('peanut', noms[0])
         self.assertEqual('jelly', noms[3])
         self.assertEqual('jelly', noms[-1])
@@ -38,55 +38,66 @@ class AboutLists(Koan):
 
     def test_slicing_lists(self):
         noms = ['peanut', 'butter', 'and', 'jelly']
-
-        self.assertEqual(__, noms[0:1])
-        self.assertEqual(__, noms[0:2])
-        self.assertEqual(__, noms[2:2])
-        self.assertEqual(__, noms[2:20])
-        self.assertEqual(__, noms[4:0])
-        self.assertEqual(__, noms[4:100])
-        self.assertEqual(__, noms[5:0])
+    #https://docs.python.org/3/library/functions.html?highlight=slice#slice
+    # Slice objects have read-only data attributes start, stop, and step which merely return the argument values (or their default).
+        self.assertEqual(['peanut'], noms[0:1])
+        self.assertEqual(['peanut', 'butter'], noms[0:2])
+        self.assertEqual([], noms[2:2])
+        self.assertEqual(['and', 'jelly'], noms[2:20])
+        self.assertEqual([], noms[4:0])
+        self.assertEqual([], noms[4:100])
+        self.assertEqual([], noms[5:0])
 
     def test_slicing_to_the_edge(self):
         noms = ['peanut', 'butter', 'and', 'jelly']
 
-        self.assertEqual(__, noms[2:])
-        self.assertEqual(__, noms[:2])
+        self.assertEqual(['and', 'jelly'], noms[2:])
+        self.assertEqual(['peanut', 'butter'], noms[:2])
+
+    #https://docs.python.org/3/search.html?q=list&check_keywords=yes&area=default
+    # Similar to an array JS that holds a list of items
+    # negative intergers means you start from the end of the list
 
     def test_lists_and_ranges(self):
         self.assertEqual(range, type(range(5)))
         self.assertNotEqual([1, 2, 3, 4, 5], range(1,6))
-        self.assertEqual(__, list(range(5)))
-        self.assertEqual(__, list(range(5, 9)))
+        self.assertEqual([0, 1 ,2 ,3 ,4], list(range(5)))
+        self.assertEqual([5,6,7,8], list(range(5, 9)))
 
     def test_ranges_with_steps(self):
-        self.assertEqual(__, list(range(5, 3, -1)))
-        self.assertEqual(__, list(range(0, 8, 2)))
-        self.assertEqual(__, list(range(1, 8, 3)))
-        self.assertEqual(__, list(range(5, -7, -4)))
-        self.assertEqual(__, list(range(5, -8, -4)))
+        self.assertEqual([5, 4], list(range(5, 3, -1)))
+        self.assertEqual([0, 2, 4, 6], list(range(0, 8, 2)))
+        self.assertEqual([1, 4, 7], list(range(1, 8, 3)))
+        self.assertEqual([5, 1, -3], list(range(5, -7, -4)))
+        self.assertEqual([5, 1, -3, -7], list(range(5, -8, -4)))
+
+    #https://docs.python.org/3/library/array.html?highlight=insert#array.array.insert
+    # Insert method inserts a new item in an array
 
     def test_insertions(self):
         knight = ['you', 'shall', 'pass']
         knight.insert(2, 'not')
-        self.assertEqual(__, knight)
+        self.assertEqual(['you', 'shall', 'not', 'pass'], knight)
 
         knight.insert(0, 'Arthur')
-        self.assertEqual(__, knight)
+        self.assertEqual(['Arthur', 'you', 'shall', 'not', 'pass'], knight)
 
     def test_popping_lists(self):
         stack = [10, 20, 30, 40]
         stack.append('last')
 
-        self.assertEqual(__, stack)
+        self.assertEqual([10, 20, 30, 40, 'last'], stack)
+
+    #https://docs.python.org/3/library/array.html?highlight=pop#array.array.pop
+    # The Pop method removes the item with the index i from the array and returns it.
 
         popped_value = stack.pop()
-        self.assertEqual(__, popped_value)
-        self.assertEqual(__, stack)
+        self.assertEqual('last', popped_value)
+        self.assertEqual([10, 20, 30, 40], stack)
 
         popped_value = stack.pop(1)
-        self.assertEqual(__, popped_value)
-        self.assertEqual(__, stack)
+        self.assertEqual(20, popped_value)
+        self.assertEqual([10, 30, 40], stack)
 
         # Notice that there is a "pop" but no "push" in python?
 
@@ -100,11 +111,11 @@ class AboutLists(Koan):
         queue = [1, 2]
         queue.append('last')
 
-        self.assertEqual(__, queue)
+        self.assertEqual([1, 2, 'last'], queue)
 
         popped_value = queue.pop(0)
-        self.assertEqual(__, popped_value)
-        self.assertEqual(__, queue)
+        self.assertEqual(1, popped_value)
+        self.assertEqual([2, 'last'], queue)
 
         # Note, popping from the left hand side of a list is
         # inefficient. Use collections.deque instead.
